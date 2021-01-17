@@ -5,14 +5,19 @@ export default (api) => {
     key: 'zipParams',
     config: {
       schema(joi) {
-        return joi
+        return  joi.object({
+          buildDir: joi.string(),
+          name: joi.string(),
+          showTime: joi.boolean(),
+          open: joi.boolean()
+        })
       },
     },
   })
 
   api.onBuildComplete(({ err }) => {
     if (!err) {
-      if (api.userConfig.zipParams) {
+      if (api.userConfig.zipParams && api.userConfig.zipParams.open) {
         const ZipIns = new AutoZip(api.userConfig.zipParams)
         ZipIns.zip()
       }

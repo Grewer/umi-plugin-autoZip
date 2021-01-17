@@ -2,20 +2,17 @@ const path = require('path')
 const fs = require('fs-extra')
 const yazl = require('yazl')
 
-class AutoZip {
-  private options: {
-    dirName: string,
-    buildName: string,
-    name?: string
-    showTime?: boolean
-  }
+interface IOptions {
+  buildDir: string,
+  name?: string
+  showTime?: boolean
+}
 
-  constructor(options) {
-    if (!options.dirName) {
-      console.warn(new Error('请输入根目录,例如 __dirname + \'/..\''))
-      return
-    }
-    if (!options.buildName) {
+class AutoZip {
+  private options: IOptions
+
+  constructor(options: IOptions) {
+    if (!options.buildDir) {
       console.warn(new Error('请输入build文件目录,例如 /build'))
       return
     }
@@ -47,19 +44,17 @@ class AutoZip {
 
 
   zip() {
-    const buildPath = this.options.dirName + this.options.buildName
     let files
     try {
-      files = this.getInfoByDir(buildPath)
+      files = this.getInfoByDir(this.options.buildDir)
     } catch (e) {
       return console.warn('获取目录失败,打包失败!')
     }
     try {
-
-      const zipfile = new yazl.ZipFile()
+      const zipFiles = new yazl.ZipFile()
 
       files.forEach(value => {
-        zipfile.addFile(value.fileDirName, value.filename)
+        zipFiles.addFile(value.fileDirName, value.filename)
       })
 
       let name = this.options.name || '压缩文件'
@@ -69,10 +64,10 @@ class AutoZip {
         name += `${date.getMonth() + 1}.${date.getDate()}-${date.getHours()}.${date.getMinutes()}`
       }
 
-      zipfile.outputStream.pipe(fs.createWriteStream(buildPath + '/' + name + '.zip')).on('close', function () {
-        console.log('压缩完成')
+      zipFiles.outputStream.pipe(fs.createWriteStream(this.options.buildDir + name + '.zip')).on('close', () => {
+        console.log('压缩完成', this.options.buildDir + name + '.zip')
       })
-      zipfile.end()
+      zipFiles.end()
     } catch (e) {
       console.warn('压缩失败!')
     }

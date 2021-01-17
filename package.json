@@ -1,0 +1,38 @@
+{
+  "name": "umi-plugin-autozip",
+  "version": "1.0.0",
+  "description": "umi plugin about after zip the dist files",
+  "source": "index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.module.js",
+  "unpkg": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "pub": "rm -rf dist && microbundle  --no-sourcemap && npm config set registry https://registry.npmjs.org && npm publish --access public",
+    "build": "rm -rf dist && microbundle  --no-sourcemap",
+    "dev": "microbundle watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/developit/microbundle.git"
+  },
+  "keywords": [
+    "umi",
+    "plugin",
+    "zip"
+  ],
+  "author": "grewer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/developit/microbundle/issues"
+  },
+  "homepage": "https://github.com/developit/microbundle#readme",
+  "devDependencies": {
+    "microbundle": "^0.13.0"
+  },
+  "dependencies": {
+    "fs-extra": "^9.0.1",
+    "path": "^0.12.7",
+    "yazl": "^2.5.1"
+  }
+}

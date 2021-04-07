@@ -1,12 +1,16 @@
 {
   "name": "umi-plugin-autozip",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "umi plugin about after zip the dist files",
   "source": "index.ts",
   "main": "dist/index.js",
   "module": "dist/index.module.js",
   "unpkg": "dist/index.umd.js",
   "types": "dist/index.d.ts",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "tag": "umi-plugin,auto-zip"
+  },
   "scripts": {
     "pub": "rm -rf dist && microbundle  --no-sourcemap && npm config set registry https://registry.npmjs.org && npm publish --access public",
     "build": "rm -rf dist && microbundle  --no-sourcemap",
